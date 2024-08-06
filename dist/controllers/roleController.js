@@ -48,6 +48,7 @@ class RoleController {
     }
     static async createRole(req, res) {
         try {
+            console.log(req.body);
             const roleService = tsyringe_1.container.resolve(roleService_1.default);
             const role = req.body;
             const newRole = await roleService.createRole(role);
@@ -58,8 +59,8 @@ class RoleController {
             });
         }
         catch (err) {
-            res.status(500).json({
-                status: 500,
+            res.status(400).json({
+                status: 400,
                 message: err.message
             });
         }

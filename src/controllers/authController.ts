@@ -4,7 +4,6 @@ import { config } from "dotenv";
 import { resolve } from "path";
 import jwt from "jsonwebtoken";
 import UserService from "../services/userService";
-import { UserType } from "../interfaces/user";
 
 config({ path: resolve(__dirname, "../../.env") });
 
@@ -12,6 +11,9 @@ config({ path: resolve(__dirname, "../../.env") });
 class AuthController {
     static async login(req: Request, res: Response) {
         try {
+            console.log("entrando en el login");
+            console.log(req.body);
+            
             const { email, password } = req.body;
             const userService = container.resolve(UserService);
             const user = await userService.checkUserCredentials(email, password);
@@ -30,30 +32,6 @@ class AuthController {
         } catch (err: any) {
             res.status(401).json({
                 status: 401,
-                message: err.message
-            });
-        }
-    }
-
-    static async register(req: Request, res: Response) {
-        try {
-  
-            
-            const { email, password, roleId }: UserType = req.body;
-
-            console.log(email, password, roleId);//sale undefined
-            
-
-            const userService = container.resolve(UserService);
-            const user = await userService.createUser({ email, password});
-
-            res.status(201).json({
-                status: 201,
-                user
-            });
-        } catch (err: any) {
-            res.status(400).json({
-                status: 400,
                 message: err.message
             });
         }

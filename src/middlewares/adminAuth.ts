@@ -12,14 +12,15 @@ interface Customuser extends Request {
 };
 //probando suerte
 
-const AdminAuth =async (req: Customuser, res: Response, next: NextFunction) => {
+const AdminAuth =async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const userService: UserService = container.resolve(UserService);
-        const id: number = parseInt(req.params.id);
-        const user: UserType | null = await userService.getUserById(id);
-        //const role: RoleType | null = await RoleService.getRoleById(user?.roleId);
-        if(user?.roleId === 1){
-            req.user = user;
+
+        const roleService: RoleService = container.resolve(RoleService);     
+        const id: number = parseInt(req.body.roleId);      
+        const role: RoleType | null  = await roleService.getRoleById(id);
+        
+        if(role?.name === 'admin'){
+            console.log("Autenticado como Administrator");
             next();
         }else{
             res.status(401).json({

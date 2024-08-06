@@ -54,6 +54,7 @@ class UserController {
             const createdUser = await userService.createUser(user);
             res.status(201).json({
                 status: 201,
+                message: 'User created successfully',
                 data: createdUser
             });
         }

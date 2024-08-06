@@ -12,6 +12,8 @@ const userService_1 = __importDefault(require("../services/userService"));
 class AuthController {
     static async login(req, res) {
         try {
+            console.log("entrando en el login");
+            console.log(req.body);
             const { email, password } = req.body;
             const userService = tsyringe_1.container.resolve(userService_1.default);
             const user = await userService.checkUserCredentials(email, password);
@@ -30,24 +32,6 @@ class AuthController {
         catch (err) {
             res.status(401).json({
                 status: 401,
-                message: err.message
-            });
-        }
-    }
-    static async register(req, res) {
-        try {
-            const { email, password, roleId } = req.body;
-            console.log(email, password, roleId); //sale undefined
-            const userService = tsyringe_1.container.resolve(userService_1.default);
-            const user = await userService.createUser({ email, password });
-            res.status(201).json({
-                status: 201,
-                user
-            });
-        }
-        catch (err) {
-            res.status(400).json({
-                status: 400,
                 message: err.message
             });
         }

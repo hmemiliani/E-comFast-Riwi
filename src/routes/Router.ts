@@ -5,10 +5,12 @@ import AdminAuth from "../middlewares/adminAuth";
 
 const router: Router = Router();
 router.use("/auth", authRouter)
-router.use("/users", /*AdminAuth, authJWT,*/userRouter)
+
+//Rutas privadas, para entrar requieren token
+router.use("/users", AdminAuth, authJWT,userRouter)//apagar /*AdminAuth, authJWT,*/ para crear un usuario
 router.use("/products", authJWT, productRouter)
 router.use("/carts", authJWT, cartRouter)
-router.use("/orders", orderRouter)
-router.use("/roles", roleRouter)//ya lo puedo borrar de aqui 
+router.use("/orders", authJWT, orderRouter)
+router.use("/roles", AdminAuth, roleRouter)//ya lo puedo borrar de aqui 
 
 export default router;

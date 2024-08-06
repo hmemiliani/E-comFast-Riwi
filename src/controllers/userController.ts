@@ -53,6 +53,7 @@ export default class UserController {
             const userService: UserService = container.resolve(UserService);
             const user: UserType = req.body;
             const createdUser: UserType | null = await userService.createUser(user);
+            
             res.status(201).json({
                 status: 201,
                 message: 'User created successfully',
