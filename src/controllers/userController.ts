@@ -50,12 +50,12 @@ export default class UserController {
 
     static async createUser(req: Request, res: Response) {
         try {
-            
             const userService: UserService = container.resolve(UserService);
             const user: UserType = req.body;
             const createdUser: UserType | null = await userService.createUser(user);
             res.status(201).json({
                 status: 201,
+                message: 'User created successfully',
                 data: createdUser
             });
         } catch (err: any) {

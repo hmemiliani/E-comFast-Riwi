@@ -47,6 +47,23 @@ class UserController {
             });
         }
     }
+    static async createUser(req, res) {
+        try {
+            const userService = tsyringe_1.container.resolve(userService_1.default);
+            const user = req.body;
+            const createdUser = await userService.createUser(user);
+            res.status(201).json({
+                status: 201,
+                data: createdUser
+            });
+        }
+        catch (err) {
+            res.status(400).json({
+                status: 400,
+                message: err.message
+            });
+        }
+    }
     static async updateUser(req, res) {
         const userService = tsyringe_1.container.resolve(userService_1.default);
         const id = parseInt(req.params.id);

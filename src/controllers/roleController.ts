@@ -49,8 +49,10 @@ export default class RoleController {
 
     static async createRole(req: Request, res: Response) {
         try {
+            console.log(req.body);
+            
             const roleService: RoleService = container.resolve(RoleService);
-            const role: Partial<RoleType> = req.body;
+            const role: RoleType = req.body;
             const newRole: RoleType | null = await roleService.createRole(role);
             
             res.status(201).json({
@@ -59,8 +61,8 @@ export default class RoleController {
                 data: newRole
             });
         } catch (err: any) {
-            res.status(500).json({
-                status: 500,
+            res.status(400).json({
+                status: 400,
                 message: err.message
             });
         }

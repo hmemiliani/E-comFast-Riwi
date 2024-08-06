@@ -5,10 +5,10 @@ import AdminAuth from "../middlewares/adminAuth";
 
 const router: Router = Router();
 router.use("/auth", authRouter)
-router.use("/users", /*AdminAuth, authJWT,*/ userRouter)
+router.use("/users", /*AdminAuth, authJWT,*/userRouter)
 router.use("/products", authJWT, productRouter)
 router.use("/carts", authJWT, cartRouter)
 router.use("/orders", orderRouter)
-router.use("/roles", roleRouter)
+router.use("/roles", roleRouter)//ya lo puedo borrar de aqui 
 
 export default router;

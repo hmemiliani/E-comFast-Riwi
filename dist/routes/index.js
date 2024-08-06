@@ -17,3 +17,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./authRouter"), exports);
 __exportStar(require("./productRouter"), exports);
 __exportStar(require("./userRouter"), exports);
+__exportStar(require("./cartRouter"), exports);
+__exportStar(require("./orderRouter"), exports);
+__exportStar(require("./roleRouter"), exports);

@@ -36,7 +36,8 @@ class AuthController {
     }
     static async register(req, res) {
         try {
-            const { email, password } = req.body;
+            const { email, password, roleId } = req.body;
+            console.log(email, password, roleId); //sale undefined
             const userService = tsyringe_1.container.resolve(userService_1.default);
             const user = await userService.createUser({ email, password });
             res.status(201).json({

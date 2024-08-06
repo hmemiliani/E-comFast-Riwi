@@ -11,7 +11,7 @@ interface CustomRequest extends Request {
 
 const authJWT = (req: CustomRequest, res: Response, next: NextFunction) => {
     const authHeader: string | undefined = req.headers.authorization;
-
+    
     if(authHeader){
 
         const token: string = authHeader/*.split(' ')[1]*/;  //apagado para hacer pruebas
