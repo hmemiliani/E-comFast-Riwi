@@ -37,6 +37,10 @@ __decorate([
     __metadata("design:type", Number)
 ], OrderModel.prototype, "userId", void 0);
 __decorate([
+    (0, sequelize_typescript_1.BelongsTo)(() => userModel_1.default),
+    __metadata("design:type", userModel_1.default)
+], OrderModel.prototype, "user", void 0);
+__decorate([
     (0, sequelize_typescript_1.ForeignKey)(() => productCartModel_1.default),
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
@@ -44,6 +48,10 @@ __decorate([
     }),
     __metadata("design:type", Number)
 ], OrderModel.prototype, "productCartId", void 0);
+__decorate([
+    (0, sequelize_typescript_1.BelongsTo)(() => productCartModel_1.default),
+    __metadata("design:type", productCartModel_1.default)
+], OrderModel.prototype, "productCart", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.DECIMAL,

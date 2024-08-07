@@ -12,25 +12,23 @@ const userService_1 = __importDefault(require("../services/userService"));
 class AuthController {
     static async login(req, res) {
         try {
-            console.log("entrando en el login");
-            console.log(req.body);
             const { email, password } = req.body;
             const userService = tsyringe_1.container.resolve(userService_1.default);
             const user = await userService.checkUserCredentials(email, password);
-            if (!user || !user?.id || !user?.email) {
+            if (!user || !user.id || !user.email) {
                 return res.status(401).json({
                     status: 401,
                     message: "Invalid credentials"
                 });
             }
-            const token = AuthController.generateToken({ id: user?.id, username: user?.email });
-            res.status(200).json({
+            const token = AuthController.generateToken({ id: user.id, username: user.email });
+            return res.status(200).json({
                 status: 200,
                 token
             });
         }
         catch (err) {
-            res.status(401).json({
+            return res.status(401).json({
                 status: 401,
                 message: err.message
             });
@@ -41,8 +39,7 @@ class AuthController {
         if (!secret) {
             throw new Error("Please provide a JWT secret!");
         }
-        const token = jsonwebtoken_1.default.sign(user, secret, { expiresIn: "1h" });
-        return token;
+        return jsonwebtoken_1.default.sign(user, secret, { expiresIn: "1h" });
     }
 }
 exports.default = AuthController;

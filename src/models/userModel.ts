@@ -1,4 +1,3 @@
-import ProductModel from './productModel';
 import {
     Table,
     Column,
@@ -6,19 +5,19 @@ import {
     DataType,
     PrimaryKey,
     AutoIncrement,
-    ForeignKey
+    ForeignKey,
+    BelongsTo,
+    HasMany
 } from 'sequelize-typescript';
 import RoleModel from './roleModel';
+import CartModel from './cartModel';
+import {OrderModel} from './orderModel';
 
 @Table({
     tableName: 'users',
     timestamps: true
 })
-
 export default class UserModel extends Model<UserModel> {
-    static attributes(arg0: string, attributes: any, arg2: {}) {
-        throw new Error("Method not implemented.");
-    }
     @PrimaryKey
     @AutoIncrement
     @Column({
@@ -41,11 +40,17 @@ export default class UserModel extends Model<UserModel> {
 
     @ForeignKey(() => RoleModel)
     @Column({
-        type: DataType.INTEGER
+        type: DataType.INTEGER,
+        allowNull: false
     })
-    roleid!: number;
+    roleId!: number;
 
-    // @HasMany(() => ProductModel)
-    // products!: ProductModel[];
+    @BelongsTo(() => RoleModel)
+    role!: RoleModel;
 
+    @HasMany(() => CartModel)
+    carts!: CartModel[];
+
+    @HasMany(() => OrderModel)
+    orders!: OrderModel[];
 }

@@ -13,7 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const productCartModel_1 = __importDefault(require("./productCartModel"));
-const userModel_1 = __importDefault(require("./userModel"));
 const sequelize_typescript_1 = require("sequelize-typescript");
 let ProductModel = class ProductModel extends sequelize_typescript_1.Model {
 };
@@ -54,17 +53,9 @@ __decorate([
     __metadata("design:type", Number)
 ], ProductModel.prototype, "stock", void 0);
 __decorate([
-    (0, sequelize_typescript_1.ForeignKey)(() => userModel_1.default),
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.INTEGER,
-        allowNull: false,
-    }),
-    __metadata("design:type", Number)
-], ProductModel.prototype, "userId", void 0);
-__decorate([
     (0, sequelize_typescript_1.HasMany)(() => productCartModel_1.default),
     __metadata("design:type", Array)
-], ProductModel.prototype, "products", void 0);
+], ProductModel.prototype, "productCarts", void 0);
 ProductModel = __decorate([
     (0, sequelize_typescript_1.Table)({
         tableName: 'products',

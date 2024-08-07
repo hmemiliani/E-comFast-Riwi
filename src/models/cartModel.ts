@@ -8,15 +8,14 @@ import {
     PrimaryKey,
     AutoIncrement,
     HasMany,
-    ForeignKey
+    ForeignKey,
+    BelongsTo
 } from 'sequelize-typescript';
 
 @Table({
     tableName: 'carts',
     timestamps: true
 })
-
-
 export default class CartModel extends Model<CartModel> {
     @PrimaryKey
     @AutoIncrement
@@ -32,6 +31,9 @@ export default class CartModel extends Model<CartModel> {
     })
     userId!: number;
 
+    @BelongsTo(() => UserModel)
+    user!: UserModel;
+
     @HasMany(() => ProductCartModel)
-    cart!: ProductCartModel[];
+    productCarts!: ProductCartModel[];
 }

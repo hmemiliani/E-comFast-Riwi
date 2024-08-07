@@ -3,36 +3,36 @@ import jwt from "jsonwebtoken";
 import { config } from "dotenv";
 import { resolve } from "path";
 
-config({ path: resolve(__dirname, '../../.env')});
+config({ path: resolve(__dirname, '../../.env') });
 
 interface CustomRequest extends Request {
     user?: any;
-};
+}
 
-const authJWT = (req: CustomRequest, res: Response, next: NextFunction) => {
+const authJWT = (req: CustomRequest, res: Response, next: NextFunction): void => {
     const authHeader: string | undefined = req.headers.authorization;
-    
-    if(authHeader){
 
-        const token: string = authHeader/*.split(' ')[1]*/;  //apagado para hacer pruebas
-
+    if (authHeader) {
+        const token: string = authHeader/*.split(' ')[1]*/; // apagar para hacer pruebas
         const secret: string | undefined = process.env.JWT_SECRET;
-        if(!secret){
+
+        if (!secret) {
             res.status(500).json({
                 status: 500,
                 message: 'Secret not found'
             });
             return;
         }
-        jwt.verify(token, secret, (err, user) =>{
-            if(err){
+
+        jwt.verify(token, secret, (err, decoded) => {
+            if (err) {
                 res.status(403).json({
                     status: 403,
                     message: 'Forbidden'
                 });
                 return;
             }
-            req.user = user;
+            req.user = decoded; //info decodificada mandada para la proxima verificacion
             next();
         });
     } else {
@@ -42,7 +42,5 @@ const authJWT = (req: CustomRequest, res: Response, next: NextFunction) => {
         });
     }
 }
-
-
 
 export default authJWT;

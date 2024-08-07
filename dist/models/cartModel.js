@@ -34,9 +34,13 @@ __decorate([
     __metadata("design:type", Number)
 ], CartModel.prototype, "userId", void 0);
 __decorate([
+    (0, sequelize_typescript_1.BelongsTo)(() => userModel_1.default),
+    __metadata("design:type", userModel_1.default)
+], CartModel.prototype, "user", void 0);
+__decorate([
     (0, sequelize_typescript_1.HasMany)(() => productCartModel_1.default),
     __metadata("design:type", Array)
-], CartModel.prototype, "cart", void 0);
+], CartModel.prototype, "productCarts", void 0);
 CartModel = __decorate([
     (0, sequelize_typescript_1.Table)({
         tableName: 'carts',

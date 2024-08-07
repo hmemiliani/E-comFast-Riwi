@@ -10,13 +10,13 @@ class UserController {
         try {
             const userService = tsyringe_1.container.resolve(userService_1.default);
             const users = await userService.getAllUsers();
-            res.status(200).json({
+            return res.status(200).json({
                 status: 200,
-                users: users
+                data: users
             });
         }
         catch (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 status: 500,
                 message: err.message
             });
@@ -28,20 +28,19 @@ class UserController {
             const id = parseInt(req.params.id);
             const user = await userService.getUserById(id);
             if (!user) {
-                res.status(404).json({
+                return res.status(404).json({
                     status: 404,
                     message: 'User not found'
                 });
-                return;
             }
             user.password = '********';
-            res.status(200).json({
+            return res.status(200).json({
                 status: 200,
                 data: user
             });
         }
         catch (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 status: 500,
                 message: err.message
             });
@@ -52,65 +51,63 @@ class UserController {
             const userService = tsyringe_1.container.resolve(userService_1.default);
             const user = req.body;
             const createdUser = await userService.createUser(user);
-            res.status(201).json({
+            return res.status(201).json({
                 status: 201,
                 message: 'User created successfully',
                 data: createdUser
             });
         }
         catch (err) {
-            res.status(400).json({
+            return res.status(400).json({
                 status: 400,
                 message: err.message
             });
         }
     }
     static async updateUser(req, res) {
-        const userService = tsyringe_1.container.resolve(userService_1.default);
-        const id = parseInt(req.params.id);
-        const user = req.body;
         try {
-            const [affectedCount] = await userService.updateUser(id, user);
+            const userService = tsyringe_1.container.resolve(userService_1.default);
+            const id = parseInt(req.params.id);
+            const user = req.body;
+            const affectedCount = await userService.updateUser(id, user);
             if (affectedCount === 0) {
-                res.status(404).json({
+                return res.status(404).json({
                     status: 404,
                     message: 'User not found'
                 });
-                return;
             }
             const updatedUser = await userService.getUserById(id);
-            res.status(200).json({
+            return res.status(200).json({
                 status: 200,
                 message: 'User updated successfully',
                 data: updatedUser
             });
         }
         catch (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 status: 500,
                 message: err.message
             });
         }
     }
     static async deleteUser(req, res) {
-        const userService = tsyringe_1.container.resolve(userService_1.default);
-        const id = parseInt(req.params.id);
         try {
+            const userService = tsyringe_1.container.resolve(userService_1.default);
+            const id = parseInt(req.params.id);
             const affectedCount = await userService.deleteUser(id);
             if (affectedCount === 0) {
-                res.status(404).json({
+                return res.status(404).json({
                     status: 404,
                     message: 'User not found'
                 });
-                return;
             }
-            res.status(200).json({
+            return res.status(200).json({
                 status: 200,
                 message: 'User deleted successfully'
             });
         }
         catch (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 status: 500,
                 message: err.message
             });

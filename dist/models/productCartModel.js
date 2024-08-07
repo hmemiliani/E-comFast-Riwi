@@ -34,6 +34,10 @@ __decorate([
     __metadata("design:type", Number)
 ], ProductCartModel.prototype, "cartId", void 0);
 __decorate([
+    (0, sequelize_typescript_1.BelongsTo)(() => cartModel_1.default),
+    __metadata("design:type", cartModel_1.default)
+], ProductCartModel.prototype, "cart", void 0);
+__decorate([
     (0, sequelize_typescript_1.ForeignKey)(() => productModel_1.default),
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
@@ -41,6 +45,10 @@ __decorate([
     }),
     __metadata("design:type", Number)
 ], ProductCartModel.prototype, "productId", void 0);
+__decorate([
+    (0, sequelize_typescript_1.BelongsTo)(() => productModel_1.default),
+    __metadata("design:type", productModel_1.default)
+], ProductCartModel.prototype, "product", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
@@ -50,7 +58,7 @@ __decorate([
 ], ProductCartModel.prototype, "quantity", void 0);
 ProductCartModel = __decorate([
     (0, sequelize_typescript_1.Table)({
-        tableName: 'carts',
+        tableName: 'product_carts',
         timestamps: true
     })
 ], ProductCartModel);

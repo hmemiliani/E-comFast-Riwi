@@ -4,15 +4,15 @@ import {
     Model,
     DataType,
     PrimaryKey,
-    AutoIncrement
+    AutoIncrement,
+    HasMany
 } from 'sequelize-typescript';
+import UserModel from './userModel';
 
 @Table({
     tableName: 'roles',
     timestamps: true
 })
-
-
 export default class RoleModel extends Model<RoleModel> {
     @PrimaryKey
     @AutoIncrement
@@ -27,4 +27,6 @@ export default class RoleModel extends Model<RoleModel> {
     })
     name!: string;
 
+    @HasMany(() => UserModel)
+    users!: UserModel[];
 }

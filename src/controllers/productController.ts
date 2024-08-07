@@ -1,115 +1,99 @@
-import ProductService from "../services/productService";
 import { container } from "tsyringe";
 import { Request, Response } from "express";
-import { ProductType } from "../interfaces/product";
+import ProductService from "../services/productService";
 
-
-export default class ProductController{
-    static async getAllProducts(_: Request, res: Response){
-        try{
-            const productService: ProductService = container.resolve(ProductService);
-            const products: ProductType[] = await productService.getAllProducts();
-            res.status(200).json({
+class ProductController {
+    static async getAllProducts(req: Request, res: Response): Promise<Response> {
+        try {
+            const productService = container.resolve(ProductService);
+            const products = await productService.getAllProducts();
+            return res.status(200).json({
                 status: 200,
-                products: products
+                data: products
             });
-
-        }catch(err: any){
-            res.status(500).json({
+        } catch (err: any) {
+            return res.status(500).json({
                 status: 500,
-                message: err.message});
+                message: err.message
+            });
         }
     }
 
-    static async getProductById(req: Request, res: Response){
-        try{
-            const productService: ProductService = container.resolve(ProductService);
-            const id: number = parseInt(req.params.id);
-            const product: ProductType | null = await productService.getProductById(id);
-            if(!product){
-                res.status(404).json({
+    static async getProductById(req: Request, res: Response): Promise<Response> {
+        try {
+            const productService = container.resolve(ProductService);
+            const product = await productService.getProductById(+req.params.id);
+            if (!product) {
+                return res.status(404).json({
                     status: 404,
-                    message: 'Product not found'
+                    message: "Product not found"
                 });
-                return;
             }
-            res.status(200).json({
-                status: 200,
-                data: product
-            });
-
-        }catch(err: any){
-            res.status(500).json({
+            return res.status(200).json(product);
+        } catch (err: any) {
+            return res.status(500).json({
                 status: 500,
-                message: err.message});
+                message: err.message
+            });
         }
     }
 
-    static async createProduct(req: Request, res: Response){
-        try{
-            const productService: ProductService = container.resolve(ProductService);
-            const product: ProductType = req.body;
-            const newProduct: ProductType | null = await productService.createProduct(product);
-            res.status(201).json({
-                status: 201,
-                message: 'Product created successfully',
-                data: newProduct
-            });
-
-        }catch(err: any){
-            res.status(500).json({
+    static async createProduct(req: Request, res: Response): Promise<Response> {
+        try {
+            const productService = container.resolve(ProductService);
+            const product = await productService.createProduct(req.body);
+            return res.status(201).json(product);
+        } catch (err: any) {
+            return res.status(500).json({
                 status: 500,
-                message: err.message});
+                message: err.message
+            });
         }
     }
 
-    static async updateProduct(req: Request, res: Response){
-        const productService: ProductService = container.resolve(ProductService);
-        const id: number = parseInt(req.params.id);
-        const product: Partial<ProductType> = req.body;
-        try{
-            const [affectedCount]: number[] = await productService.updateProduct(id, product);
-            if(affectedCount === 0){
-                res.status(404).json({
+    static async updateProduct(req: Request, res: Response): Promise<Response> {
+        try {
+            const productService = container.resolve(ProductService);
+            const affectedCount = await productService.updateProduct(+req.params.id, req.body);
+            if (affectedCount === 0) {
+                return res.status(404).json({
                     status: 404,
-                    message: 'Product not found'
+                    message: "Product not found"
                 });
-                return;
             }
-            res.status(200).json({
+            return res.status(200).json({
                 status: 200,
-                message: 'Product updated'
+                message: "Product updated successfully"
             });
-
-        }catch(err: any){
-            res.status(500).json({
+        } catch (err: any) {
+            return res.status(500).json({
                 status: 500,
-                message: err.message});
+                message: err.message
+            });
         }
     }
 
-    static async deleteProduct(req: Request, res: Response){
-        const productService: ProductService = container.resolve(ProductService);
-        const id: number = parseInt(req.params.id);
-        try{
-            const deletedCount: number = await productService.deleteProduct(id);
-            if(deletedCount === 0){
-                res.status(404).json({
+    static async deleteProduct(req: Request, res: Response): Promise<Response> {
+        try {
+            const productService = container.resolve(ProductService);
+            const affectedCount = await productService.deleteProduct(+req.params.id);
+            if (affectedCount === 0) {
+                return res.status(404).json({
                     status: 404,
-                    message: 'Product not found'
+                    message: "Product not found"
                 });
-                return;
             }
-            res.status(200).json({
+            return res.status(200).json({
                 status: 200,
-                message: 'Product deleted'
+                message: "Product deleted successfully"
             });
-
-        }catch(err: any){
-            res.status(500).json({
+        } catch (err: any) {
+            return res.status(500).json({
                 status: 500,
-                message: err.message});
+                message: err.message
+            });
         }
     }
-
 }
+
+export default ProductController;

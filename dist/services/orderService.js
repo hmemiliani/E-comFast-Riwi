@@ -15,6 +15,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const orderModel_1 = require("../models/orderModel");
 const orderRepository_1 = __importDefault(require("../repositories/orderRepository"));
 const tsyringe_1 = require("tsyringe");
 let OrderService = class OrderService {
@@ -22,19 +23,23 @@ let OrderService = class OrderService {
         this.orderRepository = orderRepository;
     }
     async getAllOrders() {
-        return await this.orderRepository.findAll(); // obtener todos los pedidos
+        return await this.orderRepository.findAll(); // obtener todas las órdenes
     }
     async getOrderById(id) {
-        return await this.orderRepository.findById(id); // obtener un pedido por su id
+        return await this.orderRepository.findById(id); // obtener una orden por su id
     }
     async createOrder(order) {
-        return await this.orderRepository.create(order); // crear un pedido
+        return await this.orderRepository.create(order); // crear una orden
     }
     async updateOrder(id, order) {
-        return await this.orderRepository.update(id, order); // actualizar un pedido por id
+        return await this.orderRepository.update(id, order); // actualizar una orden por id
     }
     async deleteOrder(id) {
-        return await this.orderRepository.delete(id); // eliminar un pedido por id
+        return await this.orderRepository.delete(id); // eliminar una orden por id
+    }
+    //el servicio que me faltaba
+    async getOrdersByUserId(userId) {
+        return await orderModel_1.OrderModel.findAll({ where: { userId } }); // Obtención de todas las ordenes de un usuario
     }
 };
 OrderService = __decorate([

@@ -10,19 +10,20 @@ const tsyringe_1 = require("tsyringe");
 const orderModel_1 = require("../models/orderModel");
 let OrderRepository = class OrderRepository {
     async findAll() {
-        return await orderModel_1.OrderModel.findAll(); //Obtención de órdenes
+        return await orderModel_1.OrderModel.findAll(); // Obtención de todas las órdenes
     }
     async findById(id) {
-        return await orderModel_1.OrderModel.findByPk(id); //Obtención de órdenes por su id
+        return await orderModel_1.OrderModel.findByPk(id); // Obtención de una orden por su id
     }
     async create(order) {
-        return await orderModel_1.OrderModel.create(order); // Creación de órdenes
+        return await orderModel_1.OrderModel.create(order); // Creación de una orden
     }
     async update(id, order) {
-        return await orderModel_1.OrderModel.update(order, { where: { id } }); // Actualizacion de orden por id
+        const [affectedCount] = await orderModel_1.OrderModel.update(order, { where: { id } }); // Actualización de una orden por su id
+        return affectedCount;
     }
     async delete(id) {
-        return await orderModel_1.OrderModel.destroy({ where: { id } }); // Eliminación de orden por id
+        return await orderModel_1.OrderModel.destroy({ where: { id } }); // Eliminación de una orden por su id
     }
 };
 OrderRepository = __decorate([

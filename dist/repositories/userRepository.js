@@ -20,19 +20,20 @@ let UserRepository = class UserRepository {
         return await userModel_1.default.findByPk(id); // Obtención de un usuario por su id
     }
     async create(user) {
-        return await userModel_1.default.create(user); // Creacion de un usuario
+        return await userModel_1.default.create(user); // Creación de un usuario
     }
     async update(id, user) {
-        return await userModel_1.default.update(user, { where: { id } }); // Actualizar un usuario
+        const [affectedCount] = await userModel_1.default.update(user, { where: { id } }); // Actualización de un usuario por su id
+        return affectedCount;
     }
     async delete(id) {
-        return await userModel_1.default.destroy({ where: { id } }); // Eliminar un usuario
+        return await userModel_1.default.destroy({ where: { id } }); // Eliminación de un usuario por su id
     }
     async findByEmail(email) {
         return await userModel_1.default.findOne({ where: { email } }); // Obtención de un usuario por su email
     }
     async findOrdersWithUser(id) {
-        return await userModel_1.default.findByPk(id, { include: [orderModel_1.OrderModel] }); // Obtención de todas las ordenes de un usuario
+        return await userModel_1.default.findByPk(id, { include: [orderModel_1.OrderModel] }); // Obtención de todas las órdenes de un usuario
     }
 };
 UserRepository = __decorate([

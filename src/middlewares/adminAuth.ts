@@ -1,30 +1,53 @@
-//verificar el role del usuario y si es admin, permitir el acceso a el endpoint users.
-
 import { Request, Response, NextFunction } from "express";
-import UserService from "../services/userService";
-import { UserType } from "../interfaces/user";
 import { container } from "tsyringe";
-import { RoleType } from "../interfaces/role";
 import RoleService from "../services/roleService";
+import UserService from "../services/userService";
 
-interface Customuser extends Request {
+interface CustomRequest extends Request {
     user?: any;
-};
-//probando suerte
+}
 
-const AdminAuth =async (req: Request, res: Response, next: NextFunction) => {
+const AdminAuth = async (req: CustomRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
+        const roleService = container.resolve(RoleService);
+        const userService = container.resolve(UserService);
 
-        const roleService: RoleService = container.resolve(RoleService);     
-        const id: number = parseInt(req.body.roleId);      
-        const role: RoleType | null  = await roleService.getRoleById(id);
-        
-        if(role?.name === 'admin'){
-            console.log("Autenticado como Administrator");
-            next();
-        }else{
+        const userEmail = req.user?.username;//se obtiene el email del usuario desocificado para buscar con email
+
+        if (!userEmail) {
             res.status(401).json({
                 status: 401,
+                message: 'User email is required'
+            });
+            return;
+        }
+
+        const user = await userService.getUserByEmail(userEmail);
+
+        if (!user) {
+            res.status(404).json({
+                status: 404,
+                message: 'User not found'
+            });
+            return;
+        }
+
+        if (user.roleId === undefined) {
+            res.status(400).json({
+                status: 400,
+                message: 'User role ID is undefined'
+            });
+            return;
+        }
+
+        const role = await roleService.getRoleById(user.roleId);
+
+        if (role?.name === 'admin') {
+            console.log("Authenticated as Administrator");
+            next();
+        } else {
+            res.status(403).json({
+                status: 403,
                 message: 'Forbidden'
             });
         }
@@ -34,7 +57,6 @@ const AdminAuth =async (req: Request, res: Response, next: NextFunction) => {
             message: error.message
         });
     }
-}
-
+};
 
 export default AdminAuth;

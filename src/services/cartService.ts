@@ -19,11 +19,11 @@ export default class CartService {
         return await this.cartRepository.create(cart); // crear un carrito
     }
 
-    async updateCart(id: number, cart: Partial<cartType>): Promise<[affectedCount: number]> {
+    async updateCart(id: number, cart: Partial<cartType>): Promise<number> {
         return await this.cartRepository.update(id, cart); // actualizar un carrito por id
     }
 
     async deleteCart(id: number): Promise<number> {
         return await this.cartRepository.delete(id); // eliminar un carrito por id
     }
-}   
+}

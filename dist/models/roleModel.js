@@ -8,8 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_typescript_1 = require("sequelize-typescript");
+const userModel_1 = __importDefault(require("./userModel"));
 let RoleModel = class RoleModel extends sequelize_typescript_1.Model {
 };
 __decorate([
@@ -27,6 +31,10 @@ __decorate([
     }),
     __metadata("design:type", String)
 ], RoleModel.prototype, "name", void 0);
+__decorate([
+    (0, sequelize_typescript_1.HasMany)(() => userModel_1.default),
+    __metadata("design:type", Array)
+], RoleModel.prototype, "users", void 0);
 RoleModel = __decorate([
     (0, sequelize_typescript_1.Table)({
         tableName: 'roles',

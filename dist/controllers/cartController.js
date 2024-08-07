@@ -10,13 +10,13 @@ class CartController {
         try {
             const cartService = tsyringe_1.container.resolve(cartService_1.default);
             const carts = await cartService.getAllCarts();
-            res.status(200).json({
+            return res.status(200).json({
                 status: 200,
-                carts: carts
+                data: carts
             });
         }
         catch (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 status: 500,
                 message: err.message
             });
@@ -28,19 +28,18 @@ class CartController {
             const id = parseInt(req.params.id);
             const cart = await cartService.getCartById(id);
             if (!cart) {
-                res.status(404).json({
+                return res.status(404).json({
                     status: 404,
                     message: 'Cart not found'
                 });
-                return;
             }
-            res.status(200).json({
+            return res.status(200).json({
                 status: 200,
                 data: cart
             });
         }
         catch (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 status: 500,
                 message: err.message
             });
@@ -51,64 +50,62 @@ class CartController {
             const cartService = tsyringe_1.container.resolve(cartService_1.default);
             const cart = req.body;
             const newCart = await cartService.createCart(cart);
-            res.status(201).json({
+            return res.status(201).json({
                 status: 201,
                 message: 'Cart created successfully',
                 data: newCart
             });
         }
         catch (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 status: 500,
                 message: err.message
             });
         }
     }
     static async updateCart(req, res) {
-        const cartService = tsyringe_1.container.resolve(cartService_1.default);
-        const id = parseInt(req.params.id);
-        const cart = req.body;
         try {
-            const [affectedCount] = await cartService.updateCart(id, cart);
+            const cartService = tsyringe_1.container.resolve(cartService_1.default);
+            const id = parseInt(req.params.id);
+            const cart = req.body;
+            const affectedCount = await cartService.updateCart(id, cart);
             if (affectedCount === 0) {
-                res.status(404).json({
+                return res.status(404).json({
                     status: 404,
                     message: 'Cart not found'
                 });
-                return;
             }
-            res.status(200).json({
+            return res.status(200).json({
                 status: 200,
                 message: 'Cart updated successfully',
                 data: cart
             });
         }
         catch (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 status: 500,
                 message: err.message
             });
         }
     }
     static async deleteCart(req, res) {
-        const cartService = tsyringe_1.container.resolve(cartService_1.default);
-        const id = parseInt(req.params.id);
         try {
+            const cartService = tsyringe_1.container.resolve(cartService_1.default);
+            const id = parseInt(req.params.id);
             const affectedCount = await cartService.deleteCart(id);
             if (affectedCount === 0) {
-                res.status(404).json({
+                return res.status(404).json({
                     status: 404,
                     message: 'Cart not found'
                 });
-                return;
             }
-            res.status(200).json({
+            return res.status(200).json({
                 status: 200,
                 message: 'Cart deleted successfully'
             });
         }
         catch (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 status: 500,
                 message: err.message
             });

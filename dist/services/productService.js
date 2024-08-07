@@ -25,21 +25,21 @@ let ProductService = class ProductService {
         return await this.productRepository.findAll(); // obtener todos los productos
     }
     async getProductById(id) {
-        return await this.productRepository.findById(id); // obtener producto por su id
+        return await this.productRepository.findById(id); // obtener un producto por su id
     }
     async createProduct(product) {
-        return await this.productRepository.create(product); // Crear un producto
+        return await this.productRepository.create(product); // crear un producto
     }
     async updateProduct(id, product) {
-        return await this.productRepository.update(id, product); // Actualizar un producto por id
+        return await this.productRepository.update(id, product); // actualizar un producto por id
     }
     async deleteProduct(id) {
-        return await this.productRepository.delete(id); // Eliminar un producto por id
+        return await this.productRepository.delete(id); // eliminar un producto por id
     }
 };
 ProductService = __decorate([
     (0, tsyringe_1.injectable)(),
-    __param(0, (0, tsyringe_1.inject)('ProductRepository')),
+    __param(0, (0, tsyringe_1.inject)("ProductRepository")),
     __metadata("design:paramtypes", [productRepository_1.default])
 ], ProductService);
 exports.default = ProductService;

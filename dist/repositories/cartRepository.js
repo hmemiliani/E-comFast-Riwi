@@ -13,16 +13,17 @@ const tsyringe_1 = require("tsyringe");
 const cartModel_1 = __importDefault(require("../models/cartModel"));
 let CartRepository = class CartRepository {
     async findAll() {
-        return await cartModel_1.default.findAll(); //Obtención de todos los carritos
+        return await cartModel_1.default.findAll(); // Obtención de todos los carritos
     }
     async findById(id) {
-        return await cartModel_1.default.findByPk(id); //Obtención de un carrito por su id
+        return await cartModel_1.default.findByPk(id); // Obtención de un carrito por su id
     }
     async create(cart) {
         return await cartModel_1.default.create(cart); // Creación de carrito
     }
     async update(id, cart) {
-        return await cartModel_1.default.update(cart, { where: { id } }); // Actualización de carrito
+        const [affectedCount] = await cartModel_1.default.update(cart, { where: { id } }); // Actualización de carrito
+        return affectedCount;
     }
     async delete(id) {
         return await cartModel_1.default.destroy({ where: { id } }); // Eliminación de carrito

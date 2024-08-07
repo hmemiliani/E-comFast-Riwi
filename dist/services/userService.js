@@ -22,7 +22,7 @@ let UserService = class UserService {
         this.userRepository = userRepository;
     }
     async getAllUsers() {
-        return await this.userRepository.findAll(); // obener todos los usuarios
+        return await this.userRepository.findAll(); // obtener todos los usuarios
     }
     async getUserById(id) {
         return await this.userRepository.findById(id); // obtener un usuario por su id
@@ -39,6 +39,9 @@ let UserService = class UserService {
     async getUserByEmail(email) {
         return await this.userRepository.findByEmail(email); // obtener un usuario por su email
     }
+    async getUserOrders(id) {
+        return await this.userRepository.findOrdersWithUser(id); // obtener todas las órdenes de un usuario
+    }
     async checkUserCredentials(email, password) {
         const user = await this.getUserByEmail(email); // Verificacion de credenciales
         if (user && user.password === password) {
@@ -49,7 +52,7 @@ let UserService = class UserService {
 };
 UserService = __decorate([
     (0, tsyringe_1.injectable)(),
-    __param(0, (0, tsyringe_1.inject)('UserRepository')),
+    __param(0, (0, tsyringe_1.inject)("UserRepository")),
     __metadata("design:paramtypes", [userRepository_1.default])
 ], UserService);
 exports.default = UserService;

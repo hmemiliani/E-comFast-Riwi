@@ -16,6 +16,7 @@ export default class RoleService {
     }
 
     async createRole(role: Partial<RoleModel>): Promise<RoleType | null> {
-        return await this.roleRepository.create(role); // crear un rol, solo dos, client/admin
+        const newRole = await this.roleRepository.create(role); // crear un rol, solo dos, client/admin
+        return newRole ? newRole.toJSON() as RoleType : null;
     }
 }

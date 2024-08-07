@@ -13,19 +13,20 @@ const tsyringe_1 = require("tsyringe");
 const productModel_1 = __importDefault(require("../models/productModel"));
 let ProductRepository = class ProductRepository {
     async findAll() {
-        return await productModel_1.default.findAll(); //Obtención de todos los productos
+        return await productModel_1.default.findAll(); // Obtención de todos los productos
     }
     async findById(id) {
-        return await productModel_1.default.findByPk(id); //Obtención de un producto por su id
+        return await productModel_1.default.findByPk(id); // Obtención de un producto por su id
     }
     async create(product) {
-        return await productModel_1.default.create(product); // Creación de producto
+        return await productModel_1.default.create(product); // Creación de un producto
     }
     async update(id, product) {
-        return await productModel_1.default.update(product, { where: { id } }); // Actualización de producto
+        const [affectedCount] = await productModel_1.default.update(product, { where: { id } }); // Actualización de un producto por su id
+        return affectedCount;
     }
     async delete(id) {
-        return await productModel_1.default.destroy({ where: { id } }); // Eliminación de producto
+        return await productModel_1.default.destroy({ where: { id } }); // Eliminación de un producto por su id
     }
 };
 ProductRepository = __decorate([

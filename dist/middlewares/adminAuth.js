@@ -1,25 +1,47 @@
 "use strict";
-//verificar el role del usuario y si es admin, permitir el acceso a el endpoint users.
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const tsyringe_1 = require("tsyringe");
 const roleService_1 = __importDefault(require("../services/roleService"));
-;
-//probando suerte
+const userService_1 = __importDefault(require("../services/userService"));
 const AdminAuth = async (req, res, next) => {
     try {
         const roleService = tsyringe_1.container.resolve(roleService_1.default);
-        const id = parseInt(req.body.roleId);
-        const role = await roleService.getRoleById(id);
+        const userService = tsyringe_1.container.resolve(userService_1.default);
+        // Obtener el email del usuario del token decodificado
+        const userEmail = req.user?.username;
+        if (!userEmail) {
+            res.status(401).json({
+                status: 401,
+                message: 'User email is required'
+            });
+            return;
+        }
+        const user = await userService.getUserByEmail(userEmail);
+        if (!user) {
+            res.status(404).json({
+                status: 404,
+                message: 'User not found'
+            });
+            return;
+        }
+        if (user.roleId === undefined) {
+            res.status(400).json({
+                status: 400,
+                message: 'User role ID is undefined'
+            });
+            return;
+        }
+        const role = await roleService.getRoleById(user.roleId);
         if (role?.name === 'admin') {
-            console.log("Autenticado como Administrator");
+            console.log("Authenticated as Administrator");
             next();
         }
         else {
-            res.status(401).json({
-                status: 401,
+            res.status(403).json({
+                status: 403,
                 message: 'Forbidden'
             });
         }

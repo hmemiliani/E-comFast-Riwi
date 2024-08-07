@@ -28,7 +28,8 @@ let RoleService = class RoleService {
         return await this.roleRepository.findById(id); // obtener un rol por su id
     }
     async createRole(role) {
-        return await this.roleRepository.create(role); // crear un rol, solo dos, client/admin
+        const newRole = await this.roleRepository.create(role); // crear un rol, solo dos, client/admin
+        return newRole ? newRole.toJSON() : null;
     }
 };
 RoleService = __decorate([

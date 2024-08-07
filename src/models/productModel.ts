@@ -1,6 +1,4 @@
 import ProductCartModel from './productCartModel';
-import productCartModel from './productCartModel';
-import UserModel from './userModel';
 import {
     Table,
     Column,
@@ -8,16 +6,13 @@ import {
     DataType,
     PrimaryKey,
     AutoIncrement,
-    HasMany,
-    ForeignKey,
-    BelongsTo
+    HasMany
 } from 'sequelize-typescript';
 
 @Table({
     tableName: 'products',
     timestamps: true
 })
-
 export default class ProductModel extends Model<ProductModel> {
     @PrimaryKey
     @AutoIncrement
@@ -50,16 +45,6 @@ export default class ProductModel extends Model<ProductModel> {
     })
     stock!: number;
 
-    @ForeignKey(() => UserModel)
-    @Column({
-        type: DataType.INTEGER,
-        allowNull: false,
-    })
-    userId!: number;
-
-    // @BelongsTo(() => UserModel)
-    // user!: UserModel;
     @HasMany(() => ProductCartModel)
-    products!: ProductCartModel[];
-
+    productCarts!: ProductCartModel[];
 }

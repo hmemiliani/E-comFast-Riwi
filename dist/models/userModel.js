@@ -14,10 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_typescript_1 = require("sequelize-typescript");
 const roleModel_1 = __importDefault(require("./roleModel"));
+const cartModel_1 = __importDefault(require("./cartModel"));
+const orderModel_1 = require("./orderModel");
 let UserModel = class UserModel extends sequelize_typescript_1.Model {
-    static attributes(arg0, attributes, arg2) {
-        throw new Error("Method not implemented.");
-    }
 };
 __decorate([
     sequelize_typescript_1.PrimaryKey,
@@ -45,10 +44,23 @@ __decorate([
 __decorate([
     (0, sequelize_typescript_1.ForeignKey)(() => roleModel_1.default),
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.INTEGER
+        type: sequelize_typescript_1.DataType.INTEGER,
+        allowNull: false
     }),
     __metadata("design:type", Number)
-], UserModel.prototype, "roleid", void 0);
+], UserModel.prototype, "roleId", void 0);
+__decorate([
+    (0, sequelize_typescript_1.BelongsTo)(() => roleModel_1.default),
+    __metadata("design:type", roleModel_1.default)
+], UserModel.prototype, "role", void 0);
+__decorate([
+    (0, sequelize_typescript_1.HasMany)(() => cartModel_1.default),
+    __metadata("design:type", Array)
+], UserModel.prototype, "carts", void 0);
+__decorate([
+    (0, sequelize_typescript_1.HasMany)(() => orderModel_1.OrderModel),
+    __metadata("design:type", Array)
+], UserModel.prototype, "orders", void 0);
 UserModel = __decorate([
     (0, sequelize_typescript_1.Table)({
         tableName: 'users',

@@ -10,13 +10,13 @@ class RoleController {
         try {
             const roleService = tsyringe_1.container.resolve(roleService_1.default);
             const roles = await roleService.getAllRoles();
-            res.status(200).json({
+            return res.status(200).json({
                 status: 200,
-                roles: roles
+                data: roles
             });
         }
         catch (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 status: 500,
                 message: err.message
             });
@@ -28,19 +28,18 @@ class RoleController {
             const id = parseInt(req.params.id);
             const role = await roleService.getRoleById(id);
             if (!role) {
-                res.status(404).json({
+                return res.status(404).json({
                     status: 404,
                     message: 'Role not found'
                 });
-                return;
             }
-            res.status(200).json({
+            return res.status(200).json({
                 status: 200,
                 data: role
             });
         }
         catch (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 status: 500,
                 message: err.message
             });
@@ -48,18 +47,17 @@ class RoleController {
     }
     static async createRole(req, res) {
         try {
-            console.log(req.body);
             const roleService = tsyringe_1.container.resolve(roleService_1.default);
             const role = req.body;
             const newRole = await roleService.createRole(role);
-            res.status(201).json({
+            return res.status(201).json({
                 status: 201,
                 message: 'Role created successfully',
                 data: newRole
             });
         }
         catch (err) {
-            res.status(400).json({
+            return res.status(400).json({
                 status: 400,
                 message: err.message
             });

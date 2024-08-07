@@ -1,16 +1,17 @@
 import { Router } from "express";
 import authJWT from "../middlewares/auth";
-import { authRouter, userRouter, productRouter, cartRouter, orderRouter, roleRouter } from "./index";
 import AdminAuth from "../middlewares/adminAuth";
+import { authRouter, userRouter, productRouter, cartRouter, orderRouter, roleRouter } from "./index";
 
 const router: Router = Router();
-router.use("/auth", authRouter)
 
-//Rutas privadas, para entrar requieren token
-router.use("/users", AdminAuth, authJWT,userRouter)//apagar /*AdminAuth, authJWT,*/ para crear un usuario
-router.use("/products", authJWT, productRouter)
-router.use("/carts", authJWT, cartRouter)
-router.use("/orders", authJWT, orderRouter)
-router.use("/roles", AdminAuth, roleRouter)//ya lo puedo borrar de aqui 
+router.use("/auth", authRouter);
+
+// Rutas privadas, para entrar requieren token
+router.use("/users", authJWT, AdminAuth, userRouter);//apagar /*authJWT, AdminAuth,*/ para crear el primer user
+router.use("/products", authJWT, productRouter);
+router.use("/carts", authJWT, cartRouter);
+router.use("/orders", authJWT, orderRouter);
+router.use("/roles", authJWT, AdminAuth, roleRouter);//solo el admin logeado podra crear o modificar roles
 
 export default router;
